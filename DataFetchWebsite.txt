@@ -1,0 +1,66 @@
+html-agility-pack
+
+// From Web
+var url = "http://html-agility-pack.net/";
+var web = new HtmlWeb();
+var doc = web.Load(url);
+
+
+// Worker.cs
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using HtmlAgilityPack;
+using WebDataFetcherWorker.Data;
+using WebDataFetcherWorker.Models;
+
+public class Worker : BackgroundService
+{
+    private readonly ILogger<Worker> _logger;
+    private readonly IServiceProvider _serviceProvider;
+
+    public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
+    {
+        _logger = logger;
+        _serviceProvider = serviceProvider;
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                // Fetch data from website
+                var httpClient = new HttpClient();
+                string url = "https://example.com"; // Replace with your target URL
+                var response = await httpClient.GetStringAsync(url);
+
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(response);
+
+                var articles = htmlDoc.DocumentNode.SelectNodes("//div[@class='article']") // Modify the XPath to match your HTML structure
+                    .Select(node => new Article
+                    {
+                        Title = node.SelectSingleNode(".//h2").InnerText,
+                        Content = node.SelectSingleNode(".//p").InnerText
+                    }).ToList();
+
+                dbContext.Articles.AddRange(articles);
+                await dbContext.SaveChangesAsync();
+
+                _logger.LogInformation("Data saved to database.");
+            }
+
+            await Task.Delay(60000, stoppingToken); // Wait for a minute before the next fetch
+        }
+    }
+}

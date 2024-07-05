@@ -1,0 +1,28 @@
+2024-07-06 00:04:02.828 +06:00 [INF] Web Service successfully start up.
+2024-07-06 00:04:07.629 +06:00 [INF] Worker running at: "2024-07-06T00:04:07.5655906+06:00"
+2024-07-06 00:04:37.676 +06:00 [ERR] An error occurred in Worker.
+Autofac.Core.DependencyResolutionException: An exception was thrown while activating DataFetchWebsite.Contexts.DataFetchDbContext.
+ ---> Autofac.Core.DependencyResolutionException: None of the constructors found on type 'DataFetchWebsite.Contexts.DataFetchDbContext' can be invoked with the available services and parameters:
+Cannot resolve parameter 'System.String ConnectionString' of constructor 'Void .ctor(System.String, System.String)'.
+
+See https://autofac.rtfd.io/help/no-constructors-bindable for more info.
+   at Autofac.Core.Activators.Reflection.ReflectionActivator.<>c__DisplayClass14_0.<UseSingleConstructorActivation>b__0(ResolveRequestContext context, Action`1 next)
+   at Autofac.Core.Resolving.Middleware.DisposalTrackingMiddleware.Execute(ResolveRequestContext context, Action`1 next)
+   at Autofac.Core.Resolving.Middleware.ActivatorErrorHandlingMiddleware.Execute(ResolveRequestContext context, Action`1 next)
+   --- End of inner exception stack trace ---
+   at Autofac.Core.Resolving.Middleware.ActivatorErrorHandlingMiddleware.Execute(ResolveRequestContext context, Action`1 next)
+   at Autofac.Core.Resolving.Middleware.SharingMiddleware.<>c__DisplayClass5_0.<Execute>b__0()
+   at Autofac.Core.Lifetime.LifetimeScope.CreateSharedInstance(Guid id, Func`1 creator)
+   at Autofac.Core.Lifetime.LifetimeScope.CreateSharedInstance(Guid primaryId, Nullable`1 qualifyingId, Func`1 creator)
+   at Autofac.Core.Resolving.Middleware.SharingMiddleware.Execute(ResolveRequestContext context, Action`1 next)
+   at Autofac.Core.Resolving.Middleware.CircularDependencyDetectorMiddleware.Execute(ResolveRequestContext context, Action`1 next)
+   at Autofac.Core.Resolving.ResolveOperation.GetOrCreateInstance(ISharingLifetimeScope currentOperationScope, ResolveRequest& request)
+   at Autofac.Core.Resolving.ResolveOperation.ExecuteOperation(ResolveRequest& request)
+   at Autofac.ResolutionExtensions.TryResolveService(IComponentContext context, Service service, IEnumerable`1 parameters, Object& instance)
+   at Autofac.ResolutionExtensions.ResolveService(IComponentContext context, Service service, IEnumerable`1 parameters)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at DataFetchWebsite.Services.WebsiteDataService.GetAllWebsiteDataAsync() in H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\Services\WebsiteDataService.cs:line 29
+   at DataFetchWebsite.Worker.ExecuteAsync(CancellationToken stoppingToken) in H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\Worker.cs:line 24
+2024-07-06 00:04:41.270 +06:00 [INF] Worker running at: "2024-07-06T00:04:41.2706132+06:00"
+2024-07-06 00:57:48.891 +06:00 [INF] Web Service successfully start up.
+2024-07-06 00:57:55.544 +06:00 [INF] Worker running at: "2024-07-06T00:57:55.5001619+06:00"

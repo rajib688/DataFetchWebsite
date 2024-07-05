@@ -1,0 +1,9 @@
+2024-07-05 01:06:21.538 +06:00 [INF] Web Service Application successfully starting up.
+2024-07-05 01:06:34.438 +06:00 [FTL] Web Service Application start-up failed
+System.ArgumentException: 'AddDbContext' was called with configuration, but the context type 'DataFetchDbContext' only declares a parameterless constructor. This means that the configuration passed to 'AddDbContext' will never be used. If configuration is passed to 'AddDbContext', then 'DataFetchDbContext' should declare a constructor that accepts a DbContextOptions<DataFetchDbContext> and must pass it to the base constructor for DbContext.
+   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.CheckContextConstructors[TContext]()
+   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.AddDbContext[TContextService,TContextImplementation](IServiceCollection serviceCollection, Action`2 optionsAction, ServiceLifetime contextLifetime, ServiceLifetime optionsLifetime)
+   at DataFetchWebsite.Program.<>c.<CreateHostBuilder>b__4_1(HostBuilderContext hostContext, IServiceCollection services) in H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\Program.cs:line 56
+   at Microsoft.Extensions.Hosting.HostBuilder.CreateServiceProvider()
+   at Microsoft.Extensions.Hosting.HostBuilder.Build()
+   at DataFetchWebsite.Program.Main(String[] args) in H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\Program.cs:line 34
