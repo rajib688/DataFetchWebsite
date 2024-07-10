@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DataFetchWebsite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f42b0f6ca32af8584975f3ee88cae8db5deec55c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+194b6caa09333e4cf9c857ed26eb066fbb82fe54")]
 [assembly: System.Reflection.AssemblyProductAttribute("DataFetchWebsite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DataFetchWebsite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

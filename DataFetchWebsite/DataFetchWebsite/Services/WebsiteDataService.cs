@@ -15,19 +15,19 @@ namespace DataFetchWebsite.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<WebsiteDataService> _logger;
+        private readonly DataFetchDbContext _dataFetchDbContext;
 
-        public WebsiteDataService(IServiceProvider serviceProvider, ILogger<WebsiteDataService> logger)
+        public WebsiteDataService(IServiceProvider serviceProvider, ILogger<WebsiteDataService> logger, DataFetchDbContext dataFetchDbContext)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
+            _dataFetchDbContext = dataFetchDbContext;
         }
 
         public async Task GetAllWebsiteDataAsync()
         {
             using (var scope = _serviceProvider.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<DataFetchDbContext>();
-
                 try
                 {
                     // Fetch data from website
@@ -39,17 +39,34 @@ namespace DataFetchWebsite.Services
                         var htmlDoc = new HtmlDocument();
                         htmlDoc.LoadHtml(response);
 
-                        var websiteDatas = htmlDoc.DocumentNode.SelectNodes("//div[@class='article']") // Modify the XPath to match your HTML structure
-                            .Select(node => new WebsiteData
+                        var rows = htmlDoc.DocumentNode.SelectNodes("//table[@class='table table-bordered background-white shares-table fixedHeader']/tbody/tr");
+
+                        if (rows != null)
+                        {
+                            var websiteDatas = rows.Select(row => new WebsiteData
                             {
-                                //Title = node.SelectSingleNode(".//h2").InnerText,
-                                //Content = node.SelectSingleNode(".//p").InnerText
+                                TradingCode = row.SelectSingleNode("td[2]/a")?.InnerText.Trim(),
+                                LTP = row.SelectSingleNode("td[3]")?.InnerText.Trim(),
+                                High = row.SelectSingleNode("td[4]")?.InnerText.Trim(),
+                                Low = row.SelectSingleNode("td[5]")?.InnerText.Trim(),
+                                ClosePrice = row.SelectSingleNode("td[6]")?.InnerText.Trim(),
+                                YCP = row.SelectSingleNode("td[7]")?.InnerText.Trim(),
+                                Change = row.SelectSingleNode("td[8]")?.InnerText.Trim(),
+                                Trade = row.SelectSingleNode("td[9]")?.InnerText.Trim(),
+                                Value = row.SelectSingleNode("td[10]")?.InnerText.Trim(),
+                                Volume = row.SelectSingleNode("td[11]")?.InnerText.Trim()
                             }).ToList();
 
-                        dbContext.WebsiteDatas.AddRange(websiteDatas);
-                        await dbContext.SaveChangesAsync();
+                            _dataFetchDbContext.WebsiteDatas.AddRange(websiteDatas);
+                            await _dataFetchDbContext.SaveChangesAsync();
 
-                        _logger.LogInformation("Data saved to database.");
+                            _logger.LogInformation("Data saved to database.");
+
+                        }
+                        else
+                        {
+                            _logger.LogWarning("No data found to save.");
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -58,43 +75,5 @@ namespace DataFetchWebsite.Services
                 }
             }
         }
-
-
-        //private readonly IServiceProvider _serviceProvider;
-        //private readonly ILogger<WebsiteDataService> _logger;
-        //public WebsiteDataService(IServiceProvider serviceProvider, ILogger<WebsiteDataService> logger) 
-        //{
-        //    _serviceProvider = serviceProvider;
-        //    _logger = logger;
-        //}
-
-        //public void GetAllWebsiteData()
-        //{
-        //    using (var scope = _serviceProvider.CreateScope())
-        //    {
-        //        var dbContext = scope.ServiceProvider.GetRequiredService<DataFetchDbContext>();
-
-        //        // Fetch data from website
-        //        var httpClient = new HttpClient();
-        //        string url = "https://www.dsebd.org/latest_share_price_scroll_l.php"; // Replace with your target URL
-        //        var response = httpClient.GetStringAsync(url);
-
-        //        var htmlDoc = new HtmlDocument();
-        //        //htmlDoc.LoadHtml(response);
-
-        //        var WebsiteDatas = htmlDoc.DocumentNode.SelectNodes("//div[@class='article']") // Modify the XPath to match your HTML structure
-        //            .Select(node => new WebsiteData
-        //            {
-        //                //Title = node.SelectSingleNode(".//h2").InnerText,
-        //                //Content = node.SelectSingleNode(".//p").InnerText
-        //            }).ToList();
-
-        //        dbContext.WebsiteDatas.AddRange(WebsiteDatas);
-
-        //        dbContext.SaveChanges();
-
-        //        _logger.LogInformation("Data saved to database.");
-        //    }
-        //}
     }
 }

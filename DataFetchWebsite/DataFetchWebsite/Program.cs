@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using System;
 
 namespace DataFetchWebsite
 {
@@ -16,11 +17,26 @@ namespace DataFetchWebsite
 
         public static void Main(string[] args)
         {
-            _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false)
+            try
+            {
+                _configuration = new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory).AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to load configuration from file 'appsettings.json': {ex.Message}");
+                Log.Fatal(ex, "Failed to load configuration");
+                return;
+            }
+
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
-            _migrationAssemblyName = typeof(Worker).Assembly.FullName;
+            _migrationAssemblyName = typeof(Program).Assembly.FullName;
+
+            if (string.IsNullOrEmpty(_connectionString))
+            {
+                throw new ArgumentNullException(nameof(_connectionString), "Connection string 'DefaultConnection' not found.");
+            }
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -49,14 +65,13 @@ namespace DataFetchWebsite
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog()
             .ConfigureContainer<ContainerBuilder>(builder =>
-            {
+            {           
                 builder.RegisterModule(new WorkerModule(_connectionString, _migrationAssemblyName, _configuration));
             })
-            .ConfigureServices((hostContext, services) =>
-            {
+            .ConfigureServices(services =>
+            {  
                 services.AddDbContext<DataFetchDbContext>(options =>
-                options.UseSqlServer(_connectionString, b => b.MigrationsAssembly(_migrationAssemblyName)));
-                //options.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer("Server = DESKTOP - K32T5PF; Database = DataFetchWebsite; User Id = sa; Password = Rajib@2024; Trust Server Certificate = True", b => b.MigrationsAssembly(_migrationAssemblyName)));
 
                 services.AddHostedService<Worker>();
 

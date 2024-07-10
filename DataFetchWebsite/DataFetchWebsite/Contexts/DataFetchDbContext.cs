@@ -1,36 +1,34 @@
 ﻿using DataFetchWebsite.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataFetchWebsite.Contexts
 {
     public class DataFetchDbContext : DbContext
     {
-        private readonly String _ConnectionString;
-        private readonly string _MigrationAssemblyName;
-        public DataFetchDbContext(DbContextOptions<DataFetchDbContext> options)
-        : base(options)
+        private static string _connectionString;
+        private static string _migrationAssemblyName;
+
+        public DataFetchDbContext(string connectionString, string migrationAssemblyName)
+        {
+            _connectionString = connectionString;
+            _migrationAssemblyName = migrationAssemblyName;
+        }
+
+        public DataFetchDbContext(DbContextOptions options) : base(options)
         {
         }
-        public DataFetchDbContext(string ConnectionString, string MigrationAssemblyName)
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            _ConnectionString = ConnectionString;
-            _MigrationAssemblyName = MigrationAssemblyName;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
-        {
-            if (!dbContextOptionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured)
             {
-                dbContextOptionsBuilder.UseSqlServer(
-                    _ConnectionString,
-                    m => m.MigrationsAssembly(_MigrationAssemblyName));
+                optionsBuilder.UseSqlServer(_connectionString, m => m.MigrationsAssembly(_migrationAssemblyName));
             }
-            base.OnConfiguring(dbContextOptionsBuilder);
+            base.OnConfiguring(optionsBuilder);
         }
+
         public DbSet<WebsiteData> WebsiteDatas { get; set; }
+
     }
 }

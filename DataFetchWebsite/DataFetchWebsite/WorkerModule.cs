@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using DataFetchWebsite.Contexts;
 using DataFetchWebsite.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace DataFetchWebsite
 {
     public class WorkerModule : Module
     {
-        private readonly string _connectionString;
-        private readonly string _migrationAssemblyName;
+        private static string _connectionString;
+        private static string _migrationAssemblyName;
         private readonly IConfiguration _configuration;
 
         public WorkerModule(string connectionString, string migrationAssemblyName, IConfiguration configuration)
@@ -23,11 +24,18 @@ namespace DataFetchWebsite
         }
         protected override void Load(ContainerBuilder builder)
         {
+            builder.Register(c =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<DataFetchDbContext>();
+                optionsBuilder.UseSqlServer(_connectionString, b => b.MigrationsAssembly(_migrationAssemblyName));
 
-            builder.RegisterType<DataFetchDbContext>().AsSelf()
-               .WithParameter("connectionString", _connectionString)
-               .WithParameter("migrationAssemblyName", _migrationAssemblyName)
-               .InstancePerLifetimeScope();
+                return new DataFetchDbContext(optionsBuilder.Options);
+            }).AsSelf().InstancePerLifetimeScope();
+
+            //builder.RegisterType<DataFetchDbContext>().AsSelf()
+            //   .WithParameter("connectionString", _connectionString)
+            //   .WithParameter("migrationAssemblyName", _migrationAssemblyName)
+            //   .InstancePerLifetimeScope();
 
             //builder.RegisterType<DataFetchDbContext>().AsSelf()
             //    .InstancePerLifetimeScope();
@@ -36,6 +44,7 @@ namespace DataFetchWebsite
                 .InstancePerLifetimeScope();
 
             base.Load(builder);
+
         }
     }
 }
