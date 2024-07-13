@@ -64,3 +64,6 @@ public class Worker : BackgroundService
         }
     }
 }
+
+
+dotnet ef migrations add AddWebsiteData --context DataFetchDbContext --project DataFetchWebsite

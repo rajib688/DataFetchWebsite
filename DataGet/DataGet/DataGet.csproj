@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-DataGet-4db7bd99-26f4-4f10-b12d-710ac78bb6f4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  
+	 <PackageReference Include="Autofac" Version="8.0.0" />
+	 <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+	 <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.29">
+	   <PrivateAssets>all</PrivateAssets>
+	   <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	 </PackageReference>
+	 <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.29" />
+	 <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+	 <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.29" />  
+	 <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.1" />  
+	 <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+     <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />	  
+     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+	 <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+	 <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+     <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />	  
+		
+  </ItemGroup>
+</Project>

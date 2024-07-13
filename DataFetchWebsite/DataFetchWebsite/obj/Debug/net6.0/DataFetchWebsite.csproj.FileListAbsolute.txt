@@ -81,3 +81,4 @@ H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\obj\Debug\net6.0\re
 H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\obj\Debug\net6.0\DataFetchWebsite.pdb
 H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\obj\Debug\net6.0\DataFetchWebsite.genruntimeconfig.cache
 H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\obj\Debug\net6.0\ref\DataFetchWebsite.dll
+H:\GitHub\DataFetchWebsite\DataFetchWebsite\DataFetchWebsite\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll

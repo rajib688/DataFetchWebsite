@@ -1,0 +1,17 @@
+2024-07-13 00:04:29.802 +06:00 [INF] Web Service successfully started up.
+2024-07-13 00:05:53.772 +06:00 [INF] Worker running at: "2024-07-13T00:05:53.7415918+06:00"
+2024-07-13 00:05:54.845 +06:00 [INF] Starting to fetch data from the website.
+2024-07-13 00:05:56.902 +06:00 [INF] Start processing HTTP request GET "https://www.dsebd.org/latest_share_price_scroll_l.php"
+2024-07-13 00:05:56.929 +06:00 [INF] Sending HTTP request GET "https://www.dsebd.org/latest_share_price_scroll_l.php"
+2024-07-13 00:07:10.013 +06:00 [INF] Web Service successfully started up.
+2024-07-13 00:08:05.312 +06:00 [INF] Worker running at: "2024-07-13T00:08:05.2826916+06:00"
+2024-07-13 00:08:06.641 +06:00 [INF] Starting to fetch data from the website.
+2024-07-13 00:08:15.298 +06:00 [INF] Start processing HTTP request GET "https://www.dsebd.org/latest_share_price_scroll_l.php"
+2024-07-13 00:08:15.319 +06:00 [INF] Sending HTTP request GET "https://www.dsebd.org/latest_share_price_scroll_l.php"
+2024-07-13 00:29:17.004 +06:00 [INF] Web Service successfully started up.
+2024-07-13 00:29:39.640 +06:00 [INF] Worker running at: "2024-07-13T00:29:39.6035539+06:00"
+2024-07-13 00:29:41.111 +06:00 [INF] Starting to fetch data from the website.
+2024-07-13 00:29:43.264 +06:00 [INF] Start processing HTTP request GET "https://www.dsebd.org/latest_share_price_scroll_l.php"
+2024-07-13 00:29:43.284 +06:00 [INF] Sending HTTP request GET "https://www.dsebd.org/latest_share_price_scroll_l.php"
+2024-07-13 00:29:47.756 +06:00 [INF] Received HTTP response headers after 4458.0697ms - 200
+2024-07-13 00:29:47.767 +06:00 [INF] End processing HTTP request after 4538.8851ms - 200
